@@ -70,8 +70,8 @@ const Calendar = ({ onDateSelect, selectedDate }) => {
           return (
             <div
               key={idx}
-              className={`p-3 min-h-[120px] glass relative cursor-pointer transition-all ${
-                !isCurrentMonth ? 'opacity-20 grayscale' : 'glass-hover'
+              className={`calendar-cell glass relative cursor-pointer transition-all ${
+                !isCurrentMonth ? 'opacity-20 grayscale' : ''
               } ${isSelected ? 'border-primary ring-2 ring-primary/20' : ''}`}
               onClick={() => onDateSelect(day)}
             >

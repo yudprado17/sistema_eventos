@@ -93,11 +93,11 @@ const Dashboard = () => {
               <Users size={20} className="text-primary" /> Estadísticas
             </h3>
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 rounded-md bg-white-5 text-center border border-white-5">
+              <div className="stat-card">
                 <span className="block text-3xl font-bold text-white">{events.length}</span>
                 <span className="text-xs text-muted uppercase font-semibold">Eventos</span>
               </div>
-              <div className="p-4 rounded-md bg-white-5 text-center border border-white-5">
+              <div className="stat-card">
                 <span className="block text-3xl font-bold text-primary">
                   {upcomingEvents.length}
                 </span>
