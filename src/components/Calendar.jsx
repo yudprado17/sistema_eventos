@@ -44,7 +44,7 @@ const Calendar = ({ onDateSelect, selectedDate }) => {
     return (
       <div className="grid grid-cols-7 mb-4">
         {days.map((day, idx) => (
-          <div className="text-center text-muted font-bold text-xs uppercase tracking-widest" key={idx}>
+          <div className="text-center text-muted font-bold text-tiny uppercase tracking-widest opacity-60" key={idx}>
             {day}
           </div>
         ))}
@@ -61,7 +61,7 @@ const Calendar = ({ onDateSelect, selectedDate }) => {
     const calendarDays = eachDayOfInterval({ start: startDate, end: endDate });
 
     return (
-      <div className="grid grid-cols-7 gap-2">
+      <div className="calendar-grid">
         {calendarDays.map((day, idx) => {
           const dayEvents = events.filter(e => isSameDay(new Date(e.date), day));
           const isSelected = isSameDay(day, selectedDate);
@@ -70,26 +70,31 @@ const Calendar = ({ onDateSelect, selectedDate }) => {
           return (
             <div
               key={idx}
-              className={`calendar-cell glass relative cursor-pointer transition-all ${
+              className={`calendar-cell relative cursor-pointer transition-all ${
                 !isCurrentMonth ? 'opacity-20 grayscale' : ''
-              } ${isSelected ? 'border-primary ring-2 ring-primary/20' : ''}`}
+              } ${isSelected ? 'bg-primary/10' : ''}`}
               onClick={() => onDateSelect(day)}
             >
-              <span className={`text-sm font-bold ${isSelected ? 'text-primary' : 'text-white'}`}>
-                {format(day, 'd')}
-              </span>
-              <div className="mt-2 flex flex-col gap-sm overflow-hidden">
+              <div className="flex justify-end mb-1">
+                <span className={`text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full ${
+                  isSelected ? 'bg-primary text-white' : isSameDay(day, new Date()) ? 'bg-accent text-bg-dark' : 'text-muted'
+                }`}>
+                  {format(day, 'd')}
+                </span>
+              </div>
+              
+              <div className="flex flex-col gap-1 overflow-hidden">
                 {dayEvents.slice(0, 3).map((event, eIdx) => (
                   <Link 
                     key={eIdx} 
                     to={`/event/${event.id}`}
-                    className="text-[10px] badge-primary px-2 py-xs rounded-md truncate hover:brightness-125 transition-all"
+                    className="text-tiny badge-primary px-1.5 py-0.5 rounded-md truncate hover:brightness-125 transition-all"
                   >
                     {event.title}
                   </Link>
                 ))}
                 {dayEvents.length > 3 && (
-                  <span className="text-[9px] text-muted font-semibold pl-1">+{dayEvents.length - 3} más</span>
+                  <span className="text-tiny text-muted font-semibold pl-1">+{dayEvents.length - 3}</span>
                 )}
               </div>
             </div>
