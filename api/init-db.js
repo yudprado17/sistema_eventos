@@ -2,7 +2,7 @@ import { neon } from '@neondatabase/serverless';
 
 export default async function handler(request, response) {
   try {
-    const sql = neon(process.env.DATABASE_URL);
+    const sql = neon(process.env.DATABASE_URL || process.env.POSTGRES_URL);
     
     // Create Events Table
     await sql`

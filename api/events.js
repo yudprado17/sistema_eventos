@@ -1,7 +1,7 @@
 import { neon } from '@neondatabase/serverless';
 
 export default async function handler(req, res) {
-  const sql = neon(process.env.DATABASE_URL);
+  const sql = neon(process.env.DATABASE_URL || process.env.POSTGRES_URL);
 
   try {
     if (req.method === 'GET') {
@@ -39,6 +39,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   } catch (error) {
     console.error('Database Error in events.js:', error);
-    return res.status(500).json({ error: 'Database operation failed', details: error.message });
+    return res.status(500).json({ 
+      error: 'Database operation failed', 
+      details: error.message,
+      hint: !process.env.DATABASE_URL && !process.env.POSTGRES_URL ? 'Missing connection string' : 'Check DB connection'
+    });
   }
 }
