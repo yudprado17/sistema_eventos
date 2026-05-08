@@ -50,7 +50,7 @@ const EventForm = ({ event, onClose, selectedDate }) => {
 
   return (
     <div className="glass p-8 relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary to-accent"></div>
+      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-r"></div>
       <button 
         onClick={onClose}
         className="absolute top-4 right-4 btn-icon"

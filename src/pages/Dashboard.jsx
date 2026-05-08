@@ -48,8 +48,8 @@ const Dashboard = () => {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 glass p-2">
+      <div className="grid grid-cols-1 lg-grid-cols-3 gap-8">
+        <div className="lg-col-span-2 glass p-2">
           <Calendar selectedDate={selectedDate} onDateSelect={setSelectedDate} />
         </div>
 
@@ -63,7 +63,7 @@ const Dashboard = () => {
                 <p className="text-muted text-sm italic">No hay eventos programados.</p>
               ) : (
                 upcomingEvents.slice(0, 5).map(event => (
-                  <div key={event.id} className="p-4 rounded-lg bg-white-5 border border-white-5 hover:border-white-10 transition-colors glass-hover">
+                  <div key={event.id} className="p-4 rounded-md bg-white-5 border border-white-5 hover:border-white-10 transition-colors glass-hover">
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <Link to={`/event/${event.id}`} className="hover:text-primary transition-colors">
@@ -93,11 +93,11 @@ const Dashboard = () => {
               <Users size={20} className="text-primary" /> Estadísticas
             </h3>
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 rounded-2xl bg-white-5 text-center border border-white-5">
+              <div className="p-4 rounded-md bg-white-5 text-center border border-white-5">
                 <span className="block text-3xl font-bold text-white">{events.length}</span>
                 <span className="text-xs text-muted uppercase font-semibold">Eventos</span>
               </div>
-              <div className="p-4 rounded-2xl bg-white-5 text-center border border-white-5">
+              <div className="p-4 rounded-md bg-white-5 text-center border border-white-5">
                 <span className="block text-3xl font-bold text-primary">
                   {upcomingEvents.length}
                 </span>
@@ -110,7 +110,7 @@ const Dashboard = () => {
 
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay">
-          <div className="w-full max-w-md animate-fade">
+          <div className="w-full max-w-md animate-in">
             <EventForm 
               event={editingEvent} 
               onClose={() => setShowForm(false)} 
