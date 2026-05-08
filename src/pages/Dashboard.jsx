@@ -28,49 +28,49 @@ const Dashboard = () => {
     .sort((a, b) => new Date(a.date) - new Date(b.date));
 
   return (
-    <div className="container">
+    <div className="container animate-in">
       <header className="flex justify-between items-center mb-10">
         <div>
-          <h1 className="text-4xl font-bold bg-gradient-title">
+          <h1 className="text-4xl font-bold text-gradient">
             Gestión de Eventos
           </h1>
-          <p className="text-text-muted mt-2">Organiza tus actividades con elegancia.</p>
+          <p className="text-muted mt-2">Organiza tus actividades con elegancia y precisión.</p>
         </div>
-        <button onClick={handleAddNew} className="btn-primary flex items-center gap-2">
+        <button onClick={handleAddNew} className="btn-primary">
           <Plus size={20} /> Nuevo Evento
         </button>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 glass p-2">
           <Calendar selectedDate={selectedDate} onDateSelect={setSelectedDate} />
         </div>
 
         <div className="flex flex-col gap-6">
           <div className="glass p-6">
-            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+            <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
               <CalendarIcon size={20} className="text-primary" /> Próximos Eventos
             </h3>
             <div className="flex flex-col gap-4">
               {upcomingEvents.length === 0 ? (
-                <p className="text-text-muted text-sm italic">No hay eventos programados.</p>
+                <p className="text-muted text-sm italic">No hay eventos programados.</p>
               ) : (
                 upcomingEvents.slice(0, 5).map(event => (
-                  <div key={event.id} className="p-4 rounded-lg bg-white-5 border border-white-5 hover:border-white-10 transition-colors">
+                  <div key={event.id} className="p-4 rounded-lg bg-white-5 border border-white-5 hover:border-white-10 transition-colors glass-hover">
                     <div className="flex justify-between items-start">
-                      <div>
+                      <div className="flex-1">
                         <Link to={`/event/${event.id}`} className="hover:text-primary transition-colors">
-                          <h4 className="font-semibold text-white">{event.title}</h4>
+                          <h4 className="font-semibold text-white truncate">{event.title}</h4>
                         </Link>
-                        <p className="text-[10px] text-text-muted uppercase tracking-wider">
+                        <p className="text-xs text-muted uppercase mt-1">
                           {format(new Date(event.date), "PPP", { locale: es })}
                         </p>
                       </div>
-                      <div className="flex gap-2">
-                        <button onClick={() => handleEdit(event)} className="text-text-muted hover:text-white">
+                      <div className="flex gap-1 ml-4">
+                        <button onClick={() => handleEdit(event)} className="btn-icon">
                           <Edit2 size={14} />
                         </button>
-                        <button onClick={() => deleteEvent(event.id)} className="text-text-muted hover:text-danger">
+                        <button onClick={() => deleteEvent(event.id)} className="btn-icon danger">
                           <Trash2 size={14} />
                         </button>
                       </div>
@@ -82,19 +82,19 @@ const Dashboard = () => {
           </div>
 
           <div className="glass p-6">
-            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+            <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
               <Users size={20} className="text-primary" /> Estadísticas
             </h3>
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 rounded-lg bg-white-5 text-center">
-                <span className="block text-2xl font-bold">{events.length}</span>
-                <span className="text-[10px] text-text-muted uppercase">Eventos</span>
+              <div className="p-4 rounded-2xl bg-white-5 text-center border border-white-5">
+                <span className="block text-3xl font-bold text-white">{events.length}</span>
+                <span className="text-xs text-muted uppercase font-semibold">Eventos</span>
               </div>
-              <div className="p-4 rounded-lg bg-white-5 text-center">
-                <span className="block text-2xl font-bold">
+              <div className="p-4 rounded-2xl bg-white-5 text-center border border-white-5">
+                <span className="block text-3xl font-bold text-primary">
                   {upcomingEvents.length}
                 </span>
-                <span className="text-[10px] text-text-muted uppercase">Activos</span>
+                <span className="text-xs text-muted uppercase font-semibold">Activos</span>
               </div>
             </div>
           </div>

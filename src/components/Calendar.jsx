@@ -23,16 +23,16 @@ const Calendar = ({ onDateSelect, selectedDate }) => {
 
   const renderHeader = () => {
     return (
-      <div className="header row flex-middle flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold capitalize">
+      <div className="flex justify-between items-center mb-8 px-4">
+        <h2 className="text-2xl font-bold capitalize text-gradient">
           {format(currentMonth, 'MMMM yyyy', { locale: es })}
         </h2>
-        <div className="flex gap-2">
-          <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="p-2 glass hover:bg-white-10">
-            <ChevronLeft size={20} />
+        <div className="flex gap-3">
+          <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className="btn-icon">
+            <ChevronLeft size={18} />
           </button>
-          <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className="p-2 glass hover:bg-white-10">
-            <ChevronRight size={20} />
+          <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className="btn-icon">
+            <ChevronRight size={18} />
           </button>
         </div>
       </div>
@@ -42,9 +42,9 @@ const Calendar = ({ onDateSelect, selectedDate }) => {
   const renderDays = () => {
     const days = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
     return (
-      <div className="days row grid grid-cols-7 mb-2">
+      <div className="grid grid-cols-7 mb-4">
         {days.map((day, idx) => (
-          <div className="col col-center text-center text-text-muted font-semibold text-sm" key={idx}>
+          <div className="text-center text-muted font-bold text-xs uppercase tracking-widest" key={idx}>
             {day}
           </div>
         ))}
@@ -61,30 +61,35 @@ const Calendar = ({ onDateSelect, selectedDate }) => {
     const calendarDays = eachDayOfInterval({ start: startDate, end: endDate });
 
     return (
-      <div className="body grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 gap-2">
         {calendarDays.map((day, idx) => {
           const dayEvents = events.filter(e => isSameDay(new Date(e.date), day));
+          const isSelected = isSameDay(day, selectedDate);
+          const isCurrentMonth = isSameMonth(day, monthStart);
+          
           return (
             <div
               key={idx}
-              className={`p-4 h-32 glass relative cursor-pointer transition-all hover:border-primary-50 ${
-                !isSameMonth(day, monthStart) ? 'opacity-30' : ''
-              } ${isSameDay(day, selectedDate) ? 'border-primary bg-primary-5' : ''}`}
+              className={`p-3 min-h-[120px] glass relative cursor-pointer transition-all ${
+                !isCurrentMonth ? 'opacity-20 grayscale' : 'glass-hover'
+              } ${isSelected ? 'border-primary ring-2 ring-primary/20' : ''}`}
               onClick={() => onDateSelect(day)}
             >
-              <span className="text-sm font-medium">{format(day, 'd')}</span>
-              <div className="mt-1 flex flex-col gap-1 overflow-hidden">
-                {dayEvents.slice(0, 2).map((event, eIdx) => (
+              <span className={`text-sm font-bold ${isSelected ? 'text-primary' : 'text-white'}`}>
+                {format(day, 'd')}
+              </span>
+              <div className="mt-2 flex flex-col gap-1.5 overflow-hidden">
+                {dayEvents.slice(0, 3).map((event, eIdx) => (
                   <Link 
                     key={eIdx} 
                     to={`/event/${event.id}`}
-                    className="text-[10px] bg-primary-20 text-primary-light px-1 rounded truncate border border-primary-20 hover:bg-primary-30 transition-colors"
+                    className="text-[10px] badge-primary px-2 py-0.5 rounded-md truncate hover:brightness-125 transition-all"
                   >
                     {event.title}
                   </Link>
                 ))}
-                {dayEvents.length > 2 && (
-                  <span className="text-[10px] text-text-muted">+{dayEvents.length - 2} más</span>
+                {dayEvents.length > 3 && (
+                  <span className="text-[9px] text-muted font-semibold pl-1">+{dayEvents.length - 3} más</span>
                 )}
               </div>
             </div>
@@ -95,7 +100,7 @@ const Calendar = ({ onDateSelect, selectedDate }) => {
   };
 
   return (
-    <div className="calendar animate-fade">
+    <div className="p-4">
       {renderHeader()}
       {renderDays()}
       {renderCells()}

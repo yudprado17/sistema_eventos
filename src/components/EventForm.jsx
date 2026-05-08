@@ -9,16 +9,18 @@ const EventForm = ({ event, onClose, selectedDate }) => {
     title: '',
     description: '',
     date: format(selectedDate || new Date(), 'yyyy-MM-dd'),
-    category: 'General'
+    time: '12:00',
+    location: ''
   });
 
   useEffect(() => {
     if (event) {
       setFormData({
         title: event.title,
-        description: event.description,
+        description: event.description || '',
         date: event.date,
-        category: event.category || 'General'
+        time: event.time || '12:00',
+        location: event.location || ''
       });
     }
   }, [event]);
@@ -34,7 +36,8 @@ const EventForm = ({ event, onClose, selectedDate }) => {
     const sanitizedData = {
       ...formData,
       title: sanitizeInput(formData.title),
-      description: sanitizeInput(formData.description)
+      description: sanitizeInput(formData.description),
+      location: sanitizeInput(formData.location)
     };
 
     if (event) {
@@ -47,26 +50,26 @@ const EventForm = ({ event, onClose, selectedDate }) => {
 
   return (
     <div className="glass p-8 relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-accent"></div>
+      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary to-accent"></div>
       <button 
         onClick={onClose}
-        className="absolute top-4 right-4 text-text-muted hover:text-white"
+        className="absolute top-4 right-4 btn-icon"
       >
-        <X size={20} />
+        <X size={18} />
       </button>
 
-      <h2 className="text-2xl font-bold mb-6">
-        {event ? 'Editar Evento' : 'Crear Nuevo Evento'}
+      <h2 className="text-2xl font-bold mb-8 text-gradient">
+        {event ? 'Editar Evento' : 'Nuevo Evento'}
       </h2>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
         <div>
-          <label className="text-xs font-semibold text-text-muted uppercase mb-2 block flex items-center gap-2">
-            <Type size={14} /> Título del Evento
+          <label className="text-xs font-bold text-muted uppercase mb-2 block flex items-center gap-2 tracking-widest">
+            <Type size={14} className="text-primary" /> Título
           </label>
           <input 
             type="text" 
-            placeholder="Ej. Conferencia Anual"
+            placeholder="Nombre del evento..."
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             required
@@ -74,51 +77,64 @@ const EventForm = ({ event, onClose, selectedDate }) => {
           />
         </div>
 
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="text-xs font-bold text-muted uppercase mb-2 block flex items-center gap-2 tracking-widest">
+              <Calendar size={14} className="text-primary" /> Fecha
+            </label>
+            <input 
+              type="date" 
+              value={formData.date}
+              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+              required
+            />
+          </div>
+          <div>
+            <label className="text-xs font-bold text-muted uppercase mb-2 block flex items-center gap-2 tracking-widest">
+              <span className="text-primary">🕒</span> Hora
+            </label>
+            <input 
+              type="time" 
+              value={formData.time}
+              onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+              required
+            />
+          </div>
+        </div>
+
         <div>
-          <label className="text-xs font-semibold text-text-muted uppercase mb-2 block flex items-center gap-2">
-            <Calendar size={14} /> Fecha
+          <label className="text-xs font-bold text-muted uppercase mb-2 block flex items-center gap-2 tracking-widest">
+            <span className="text-primary">📍</span> Ubicación
           </label>
           <input 
-            type="date" 
-            value={formData.date}
-            onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+            type="text" 
+            placeholder="Lugar del evento..."
+            value={formData.location}
+            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
             required
           />
         </div>
 
         <div>
-          <label className="text-xs font-semibold text-text-muted uppercase mb-2 block flex items-center gap-2">
-            <AlignLeft size={14} /> Descripción
+          <label className="text-xs font-bold text-muted uppercase mb-2 block flex items-center gap-2 tracking-widest">
+            <AlignLeft size={14} className="text-primary" /> Descripción
           </label>
           <textarea 
             rows="3"
-            placeholder="Detalles del evento..."
+            placeholder="Detalles adicionales..."
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           />
         </div>
 
-        <div>
-          <label className="text-xs font-semibold text-text-muted uppercase mb-2 block">Categoría</label>
-          <select 
-            value={formData.category}
-            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-          >
-            <option value="General">General</option>
-            <option value="Trabajo">Trabajo</option>
-            <option value="Social">Social</option>
-            <option value="Importante">Importante</option>
-          </select>
-        </div>
-
-        <div className="flex gap-4 mt-4">
-          <button type="submit" className="btn-primary flex-1 py-3">
-            {event ? 'Guardar Cambios' : 'Crear Evento'}
+        <div className="flex gap-4 mt-6">
+          <button type="submit" className="btn-primary flex-1">
+            {event ? 'Actualizar' : 'Crear Evento'}
           </button>
           <button 
             type="button" 
             onClick={onClose}
-            className="flex-1 py-3 glass hover:bg-white-10 text-text-muted"
+            className="btn-icon flex-1"
           >
             Cancelar
           </button>
