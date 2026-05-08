@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import Calendar from '../components/Calendar';
 import EventForm from '../components/EventForm';
 import { useEvents } from '../context/EventContext';
-import { Plus, Calendar as CalendarIcon, Users, Trash2, Edit2 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { Plus, Calendar as CalendarIcon, Users, Trash2, Edit2, LogOut } from 'lucide-react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const { events, deleteEvent } = useEvents();
+  const { user, logout } = useAuth();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showForm, setShowForm] = useState(false);
   const [editingEvent, setEditingEvent] = useState(null);
@@ -34,11 +36,16 @@ const Dashboard = () => {
           <h1 className="text-4xl font-bold text-gradient">
             Gestión de Eventos
           </h1>
-          <p className="text-muted mt-2">Organiza tus actividades con elegancia y precisión.</p>
+          <p className="text-muted mt-2">Bienvenido, <span className="text-primary font-bold">{user?.username}</span>. Organiza tus actividades.</p>
         </div>
-        <button onClick={handleAddNew} className="btn-primary">
-          <Plus size={20} /> Nuevo Evento
-        </button>
+        <div className="flex gap-4">
+          <button onClick={handleAddNew} className="btn-primary">
+            <Plus size={20} /> Nuevo Evento
+          </button>
+          <button onClick={logout} className="btn-icon" title="Cerrar Sesión">
+            <LogOut size={20} />
+          </button>
+        </div>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
