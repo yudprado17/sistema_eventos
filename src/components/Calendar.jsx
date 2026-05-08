@@ -78,12 +78,12 @@ const Calendar = ({ onDateSelect, selectedDate }) => {
               <span className={`text-sm font-bold ${isSelected ? 'text-primary' : 'text-white'}`}>
                 {format(day, 'd')}
               </span>
-              <div className="mt-2 flex flex-col gap-1.5 overflow-hidden">
+              <div className="mt-2 flex flex-col gap-sm overflow-hidden">
                 {dayEvents.slice(0, 3).map((event, eIdx) => (
                   <Link 
                     key={eIdx} 
                     to={`/event/${event.id}`}
-                    className="text-[10px] badge-primary px-2 py-0.5 rounded-md truncate hover:brightness-125 transition-all"
+                    className="text-[10px] badge-primary px-2 py-xs rounded-md truncate hover:brightness-125 transition-all"
                   >
                     {event.title}
                   </Link>
